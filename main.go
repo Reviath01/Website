@@ -63,7 +63,13 @@ func main() {
 		defer resp.Body.Close()
 		c.Redirect(http.StatusMovedPermanently, "/")
 	})
-	if err := server.Run(":8080"); err != nil {
+	var port string
+	if os.Getenv("PORT") == "" {
+		port = "8080"
+	} else {
+		port = os.Getenv("PORT")
+	}
+	if err := server.Run(":" + port); err != nil {
 		print(err.Error() + "\n")
 		os.Exit(0)
 	}
